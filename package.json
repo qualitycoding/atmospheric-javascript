@@ -1,0 +1,1 @@
+{"name":"void-choir-tests","private":true,"scripts":{"test":"node tests/run.js"},"devDependencies":{"node-web-audio-api":"*"}}
