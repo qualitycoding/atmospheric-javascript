@@ -96,6 +96,11 @@ function ihr(d,f0,N=16384){const m=D.spectrum(d,Math.floor(0.25*SR),N);let h=0,i
   ok('T-29 cabinet IR matches the measured table at '+sr+' Hz (worst error '+worst.toFixed(1)+' dB <= 3)',worst<=3,pts.join(' '));}
  ok('T-29b cabinet IR is minimum-phase: >=95% of energy in the first 512 taps',(()=>{const ir=V.makeCabIR(44100,0);let a=0,b=0;ir.forEach((v,i)=>{b+=v*v;if(i<512)a+=v*v;});return a/b>=0.95;})(),'energy is late');
 
+ // ---- T-30: the shipped single-file app is exactly what build.js produces from its sources ----
+ {const B=require('../build.js');let built=null,err=null;try{built=B.build();}catch(e){err=e.message;}
+  ok('T-30 void-choir.html is up to date with void-choir.template.html + void-choir-engine.js (run `npm run build` if this fails)',
+     built!==null&&B.norm(fs.readFileSync(B.OUT,'utf8'))===built,err||'the built page differs from its sources');}
+
  // ---- drums (baselines measured from original code) ----
  const kb=await drum('kick','raw',0.6);
  ok('T-16 kick reaches sub register '+D.domFreq(kb,SR,0.10,2048).toFixed(0)+' Hz',D.domFreq(kb,SR,0.10,2048)<=80,'');
