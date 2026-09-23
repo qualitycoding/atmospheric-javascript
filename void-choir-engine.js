@@ -1,6 +1,6 @@
 /* VOID CHOIR — engine core.
    DOM-free and side-effect-free on load, so the same file backs both the
-   instrument (void-choir.html) and the frozen test harness (tests.html).
+   instrument (index.html) and the frozen test harness (tests.html).
    Plain script, not an ES module: ES modules do not load over file://. */
 (function (global) {
   'use strict';
