@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-/* Builds void-choir.html (the single-file app) from its two sources:
+/* Builds index.html (the single-file app) from its two sources:
  *   void-choir.template.html   the UI, with a <script src="void-choir-engine.js"> tag
  *   void-choir-engine.js       the audio and music engine
  *
- *   node build.js           write void-choir.html
- *   node build.js --check   exit 1 if void-choir.html is out of date (writes nothing)
+ *   node build.js           write index.html
+ *   node build.js --check   exit 1 if index.html is out of date (writes nothing)
  *
  * No dependencies. Line endings are normalised to \n so the check also passes
  * on Windows checkouts that convert them. */
@@ -14,7 +14,7 @@ const path = require('path');
 
 const TEMPLATE = path.join(__dirname, 'void-choir.template.html');
 const ENGINE = path.join(__dirname, 'void-choir-engine.js');
-const OUT = path.join(__dirname, 'void-choir.html');
+const OUT = path.join(__dirname, 'index.html');
 const TAG = '<script src="void-choir-engine.js"></script>';
 const BANNER = '<!-- GENERATED FILE: edit void-choir.template.html or void-choir-engine.js, then run `npm run build`. -->\n';
 
@@ -42,12 +42,12 @@ if (require.main === module) {
     const built = build();
     if (process.argv.includes('--check')) {
       const current = fs.existsSync(OUT) ? norm(fs.readFileSync(OUT, 'utf8')) : null;
-      if (current === built) { console.log('void-choir.html is up to date'); process.exit(0); }
-      console.error('void-choir.html is out of date. Run: npm run build');
+      if (current === built) { console.log('index.html is up to date'); process.exit(0); }
+      console.error('index.html is out of date. Run: npm run build');
       process.exit(1);
     }
     fs.writeFileSync(OUT, built);
-    console.log('wrote void-choir.html (' + built.length + ' characters)');
+    console.log('wrote index.html (' + built.length + ' characters)');
   } catch (e) {
     console.error('build failed: ' + e.message);
     process.exit(1);

@@ -98,7 +98,7 @@ function ihr(d,f0,N=16384){const m=D.spectrum(d,Math.floor(0.25*SR),N);let h=0,i
 
  // ---- T-30: the shipped single-file app is exactly what build.js produces from its sources ----
  {const B=require('../build.js');let built=null,err=null;try{built=B.build();}catch(e){err=e.message;}
-  ok('T-30 void-choir.html is up to date with void-choir.template.html + void-choir-engine.js (run `npm run build` if this fails)',
+  ok('T-30 index.html is up to date with void-choir.template.html + void-choir-engine.js (run `npm run build` if this fails)',
      built!==null&&B.norm(fs.readFileSync(B.OUT,'utf8'))===built,err||'the built page differs from its sources');}
 
  // ---- drums (baselines measured from original code) ----
