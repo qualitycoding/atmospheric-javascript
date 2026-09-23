@@ -36,6 +36,16 @@ Press **BEGIN TRANSMISSION**. Browsers only allow audio after a click, so nothin
 | Second Wave, raw | 186 BPM | Phrygian | Mostly blast beats, short dry room, hard-driven guitars |
 | Blackgaze, symphonic | 142 BPM | Aeolian | Mixed blast, gallop and half-time, long reverb, prominent pads |
 | Atmospheric, cosmic | 112 BPM | Aeolian | Mostly half-time and sparse drums, very long reverb, pads and drones forward |
+| Meshuggah, oblique | 126 BPM | Phrygian | Half-time-weighted, dry room, maximum drive, low tonic |
+| Classic Rock, arena | 122 BPM | Mixolydian | Mixed gallop and half-time, moderate reverb, major-key riffs |
+| Blues Rock, shuffle | 108 BPM | Blues scale | Shuffle-feel drums, lead forward, warm drive |
+| Motörhead, speed | 190 BPM | Mixolydian | Punk-weighted drums, heavy drive, dry room, loud bass |
+| 80s Hair Metal, arena | 132 BPM | Mixolydian | Four-on-floor/gallop mix, long reverb, lead forward |
+| Nirvana, grunge | 134 BPM | Aeolian | Half-time/punk mix, crunchy rhythm guitar forward |
+| Ramones, punk | 178 BPM | Aeolian | Driving eighths, backbeat, short dry room |
+| Art Punk, avant | 150 BPM | Dorian | Angular motifs, sparse/punk mix, prominent sci-fi ambience |
+| Exploited, street punk | 184 BPM | Phrygian | Fast punk beats, high drive, very dry room |
+| Disco, four on the floor | 118 BPM | Dorian | Offbeat open hats, kick quarters, bass forward, cleaner guitars |
 
 Each style sets its own tempo, chord progression, drum-feel weighting, reverb, guitar drive and mix balance. Changing style rebuilds the audio and restarts from the top.
 
@@ -45,7 +55,7 @@ The page reads these URL parameters:
 
 | Parameter | Values | Effect |
 |---|---|---|
-| `style` | `raw`, `blackgaze`, `cosmic` | Starting style |
+| `style` | `raw`, `blackgaze`, `cosmic`, `meshuggah`, `classic-rock`, `blues-rock`, `motorhead`, `hair-metal`, `nirvana`, `ramones`, `art-punk`, `exploited`, `disco` | Starting style |
 | `seed` | any text | Starting seed |
 | `cabhf` | `0` to `1` | Scales the high-frequency lift of the guitar cabinet: `0` is flat above 4.6 kHz, `1` is fully fitted (default) |
 

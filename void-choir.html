@@ -163,7 +163,9 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
   var MODES = {
     aeolian:  [0, 2, 3, 5, 7, 8, 10],
     phrygian: [0, 1, 3, 5, 7, 8, 10],
-    dorian:   [0, 2, 3, 5, 7, 9, 10]
+    dorian:   [0, 2, 3, 5, 7, 9, 10],
+    mixolydian: [0, 2, 4, 5, 7, 9, 10],
+    blues:      [0, 3, 5, 6, 7, 10]
   };
 
   /* Three seeds, each a real point in the subgenre rather than a knob preset.
@@ -174,7 +176,7 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
       bpm: 186, tonic: 40, stepsPerChord: 32, mode: 'phrygian',
       progression: [[0, 'min'], [10, 'maj'], [8, 'maj'], [10, 'maj']],
       tremPerBeat: 4,
-      archetypeWeights: { blast: 0.62, gallop: 0.30, halftime: 0.06, sparse: 0.02 },
+      archetypeWeights: { blast: 0.62, gallop: 0.30, halftime: 0.06, sparse: 0.02, punk: 0, fourFloor: 0, shuffle: 0 },
       allowCowbell: false,
       reverb: { seconds: 1.0, damp: 2600, mix: 0.10 },
       drive: { rhythm: 74, lead: 82 },
@@ -187,7 +189,7 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
       bpm: 142, tonic: 40, stepsPerChord: 64, mode: 'aeolian',
       progression: [[8, 'maj'], [10, 'maj'], [0, 'min'], [3, 'maj']],
       tremPerBeat: 4,
-      archetypeWeights: { blast: 0.30, gallop: 0.34, halftime: 0.30, sparse: 0.06 },
+      archetypeWeights: { blast: 0.30, gallop: 0.34, halftime: 0.30, sparse: 0.06, punk: 0, fourFloor: 0, shuffle: 0 },
       allowCowbell: false,
       reverb: { seconds: 3.4, damp: 4200, mix: 0.42 },
       drive: { rhythm: 58, lead: 64 },
@@ -200,16 +202,148 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
       bpm: 112, tonic: 36, stepsPerChord: 64, mode: 'aeolian',
       progression: [[0, 'min'], [8, 'maj'], [3, 'maj'], [10, 'maj']],
       tremPerBeat: 4,
-      archetypeWeights: { blast: 0.18, gallop: 0.22, halftime: 0.40, sparse: 0.20 },
+      archetypeWeights: { blast: 0.18, gallop: 0.22, halftime: 0.40, sparse: 0.20, punk: 0, fourFloor: 0, shuffle: 0 },
       allowCowbell: false,
       reverb: { seconds: 4.8, damp: 5200, mix: 0.56 },
       drive: { rhythm: 46, lead: 52 },
       mix: { drums: 52, gtrchord: 58, gtrtrem: 60, bass: 50, pads: 66, drones: 58, scifi: 34 },
       motif: { len: 16, span: 7, leapChance: 0.16 },
       cymBase: 260, hatTone: 6800, kickClick: 0.5, padOct: 12, droneChance: 0.55, scifiDensity: 40
+    },
+    meshuggah: {
+      id: 'meshuggah', label: 'MESHUGGAH \u2014 OBLIQUE',
+      bpm: 126, tonic: 32, stepsPerChord: 32, mode: 'phrygian',
+      progression: [[0, 'min'], [10, 'maj'], [8, 'maj'], [10, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0.10, gallop: 0.10, halftime: 0.55, sparse: 0.25, punk: 0, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 1.2, damp: 2800, mix: 0.12 },
+      drive: { rhythm: 80, lead: 74 },
+      mix: { drums: 68, gtrchord: 76, gtrtrem: 60, bass: 62, pads: 8, drones: 18, scifi: 6 },
+      motif: { len: 16, span: 5, leapChance: 0.12 },
+      cymBase: 300, hatTone: 8000, kickClick: 1.4, padOct: 0, droneChance: 0.15, scifiDensity: 6
+    },
+    'classic-rock': {
+      id: 'classic-rock', label: 'CLASSIC ROCK \u2014 ARENA',
+      bpm: 122, tonic: 40, stepsPerChord: 32, mode: 'mixolydian',
+      progression: [[0, 'maj'], [7, 'maj'], [5, 'maj'], [7, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0, gallop: 0.30, halftime: 0.40, sparse: 0.10, punk: 0, fourFloor: 0, shuffle: 0.20 },
+      allowCowbell: false,
+      reverb: { seconds: 1.8, damp: 3400, mix: 0.22 },
+      drive: { rhythm: 55, lead: 60 },
+      mix: { drums: 62, gtrchord: 66, gtrtrem: 64, bass: 58, pads: 30, drones: 20, scifi: 8 },
+      motif: { len: 16, span: 7, leapChance: 0.20 },
+      cymBase: 330, hatTone: 8200, kickClick: 0.9, padOct: 0, droneChance: 0.10, scifiDensity: 8
+    },
+    'blues-rock': {
+      id: 'blues-rock', label: 'BLUES ROCK \u2014 SHUFFLE',
+      bpm: 108, tonic: 38, stepsPerChord: 32, mode: 'blues',
+      progression: [[0, 'maj'], [5, 'maj'], [0, 'maj'], [7, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0, gallop: 0, halftime: 0.30, sparse: 0.15, punk: 0, fourFloor: 0, shuffle: 0.55 },
+      allowCowbell: false,
+      reverb: { seconds: 1.6, damp: 3200, mix: 0.25 },
+      drive: { rhythm: 52, lead: 58 },
+      mix: { drums: 58, gtrchord: 62, gtrtrem: 66, bass: 56, pads: 22, drones: 14, scifi: 6 },
+      motif: { len: 16, span: 8, leapChance: 0.28 },
+      cymBase: 320, hatTone: 8000, kickClick: 0.6, padOct: 0, droneChance: 0.10, scifiDensity: 6
+    },
+    motorhead: {
+      id: 'motorhead', label: 'MOT\u00d6RHEAD \u2014 SPEED',
+      bpm: 190, tonic: 38, stepsPerChord: 32, mode: 'mixolydian',
+      progression: [[0, 'maj'], [10, 'maj'], [8, 'maj'], [10, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0.20, gallop: 0.30, halftime: 0, sparse: 0, punk: 0.50, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 0.9, damp: 2600, mix: 0.10 },
+      drive: { rhythm: 78, lead: 72 },
+      mix: { drums: 72, gtrchord: 70, gtrtrem: 62, bass: 64, pads: 6, drones: 10, scifi: 4 },
+      motif: { len: 16, span: 6, leapChance: 0.15 },
+      cymBase: 310, hatTone: 8400, kickClick: 1.3, padOct: 0, droneChance: 0.06, scifiDensity: 4
+    },
+    'hair-metal': {
+      id: 'hair-metal', label: '80s HAIR METAL \u2014 ARENA',
+      bpm: 132, tonic: 40, stepsPerChord: 64, mode: 'mixolydian',
+      progression: [[8, 'maj'], [10, 'maj'], [0, 'maj'], [5, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0, gallop: 0.35, halftime: 0.10, sparse: 0, punk: 0.20, fourFloor: 0.35, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 2.6, damp: 4600, mix: 0.35 },
+      drive: { rhythm: 62, lead: 70 },
+      mix: { drums: 64, gtrchord: 64, gtrtrem: 68, bass: 56, pads: 34, drones: 20, scifi: 12 },
+      motif: { len: 16, span: 9, leapChance: 0.30 },
+      cymBase: 300, hatTone: 7800, kickClick: 1.0, padOct: 12, droneChance: 0.18, scifiDensity: 14
+    },
+    nirvana: {
+      id: 'nirvana', label: 'NIRVANA \u2014 GRUNGE',
+      bpm: 134, tonic: 40, stepsPerChord: 32, mode: 'aeolian',
+      progression: [[0, 'min'], [8, 'maj'], [3, 'maj'], [10, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0, gallop: 0.10, halftime: 0.55, sparse: 0.05, punk: 0.30, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 2.2, damp: 4000, mix: 0.30 },
+      drive: { rhythm: 68, lead: 64 },
+      mix: { drums: 66, gtrchord: 70, gtrtrem: 62, bass: 58, pads: 26, drones: 16, scifi: 10 },
+      motif: { len: 16, span: 7, leapChance: 0.22 },
+      cymBase: 280, hatTone: 7600, kickClick: 1.1, padOct: 0, droneChance: 0.20, scifiDensity: 12
+    },
+    ramones: {
+      id: 'ramones', label: 'RAMONES \u2014 PUNK',
+      bpm: 178, tonic: 40, stepsPerChord: 32, mode: 'aeolian',
+      progression: [[0, 'min'], [8, 'maj'], [10, 'maj'], [8, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0, gallop: 0.20, halftime: 0, sparse: 0.05, punk: 0.75, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 1.1, damp: 2800, mix: 0.14 },
+      drive: { rhythm: 70, lead: 64 },
+      mix: { drums: 68, gtrchord: 70, gtrtrem: 60, bass: 60, pads: 10, drones: 8, scifi: 4 },
+      motif: { len: 16, span: 5, leapChance: 0.10 },
+      cymBase: 330, hatTone: 8600, kickClick: 1.2, padOct: 0, droneChance: 0.05, scifiDensity: 4
+    },
+    'art-punk': {
+      id: 'art-punk', label: 'ART PUNK \u2014 AVANT',
+      bpm: 150, tonic: 40, stepsPerChord: 32, mode: 'dorian',
+      progression: [[0, 'min'], [1, 'maj'], [0, 'min'], [10, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0.10, gallop: 0, halftime: 0.15, sparse: 0.30, punk: 0.45, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 1.4, damp: 3000, mix: 0.20 },
+      drive: { rhythm: 66, lead: 60 },
+      mix: { drums: 62, gtrchord: 66, gtrtrem: 62, bass: 56, pads: 24, drones: 14, scifi: 16 },
+      motif: { len: 16, span: 10, leapChance: 0.34 },
+      cymBase: 300, hatTone: 8200, kickClick: 1.0, padOct: 0, droneChance: 0.22, scifiDensity: 18
+    },
+    exploited: {
+      id: 'exploited', label: 'EXPLOITED \u2014 STREET PUNK',
+      bpm: 184, tonic: 38, stepsPerChord: 32, mode: 'phrygian',
+      progression: [[0, 'min'], [10, 'maj'], [8, 'maj'], [10, 'maj']],
+      tremPerBeat: 4,
+      archetypeWeights: { blast: 0.20, gallop: 0.10, halftime: 0, sparse: 0, punk: 0.70, fourFloor: 0, shuffle: 0 },
+      allowCowbell: false,
+      reverb: { seconds: 0.8, damp: 2400, mix: 0.08 },
+      drive: { rhythm: 76, lead: 70 },
+      mix: { drums: 72, gtrchord: 72, gtrtrem: 62, bass: 60, pads: 6, drones: 8, scifi: 4 },
+      motif: { len: 16, span: 5, leapChance: 0.12 },
+      cymBase: 310, hatTone: 8400, kickClick: 1.35, padOct: 0, droneChance: 0.05, scifiDensity: 4
+    },
+    disco: {
+      id: 'disco', label: 'DISCO \u2014 FOUR ON THE FLOOR',
+      bpm: 118, tonic: 38, stepsPerChord: 64, mode: 'dorian',
+      progression: [[0, 'min'], [3, 'maj'], [8, 'maj'], [10, 'maj']],
+      tremPerBeat: 2,
+      archetypeWeights: { blast: 0, gallop: 0, halftime: 0, sparse: 0.10, punk: 0, fourFloor: 0.85, shuffle: 0.05 },
+      allowCowbell: false,
+      reverb: { seconds: 2.0, damp: 4400, mix: 0.30 },
+      drive: { rhythm: 40, lead: 46 },
+      mix: { drums: 66, gtrchord: 46, gtrtrem: 40, bass: 62, pads: 48, drones: 20, scifi: 20 },
+      motif: { len: 16, span: 7, leapChance: 0.24 },
+      cymBase: 340, hatTone: 9200, kickClick: 0.8, padOct: 12, droneChance: 0.12, scifiDensity: 20
     }
   };
-  var STYLE_IDS = ['raw', 'blackgaze', 'cosmic'];
+  var STYLE_IDS = ['raw', 'blackgaze', 'cosmic',
+    'meshuggah', 'classic-rock', 'blues-rock', 'motorhead', 'hair-metal',
+    'nirvana', 'ramones', 'art-punk', 'exploited', 'disco'];
 
   var DRUMS = ['kick', 'snare', 'chat', 'ohat', 'tom', 'ride', 'crash', 'cowbell'];
   var STEPS = 16;
@@ -223,7 +357,7 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
 
   /* ================= COMPOSER (pure, no audio) ================= */
   function pickArchetype(style, rng) {
-    var r = rng(), acc = 0, keys = ['blast', 'gallop', 'halftime', 'sparse'];
+    var r = rng(), acc = 0, keys = ['blast', 'gallop', 'halftime', 'sparse', 'punk', 'fourFloor', 'shuffle'];
     for (var i = 0; i < keys.length; i++) {
       acc += style.archetypeWeights[keys[i]] || 0;
       if (r < acc) return keys[i];
@@ -289,6 +423,31 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
       }
       d.snare[8] = true;
       if (intensity > 0.5) d.tom[14] = true;
+    } else if (archetype === 'punk') {
+      for (s = 0; s < STEPS; s++) {
+        d.kick[s] = (s % 4 === 0);
+        d.chat[s] = (s % 2 === 0);
+        d.snare[s] = (s === 4 || s === 12);
+      }
+      if (intensity > 0.75) { d.kick[2] = d.kick[6] = d.kick[10] = d.kick[14] = true; }
+      d.crash[0] = true;
+      if (intensity > 0.5) d.crash[8] = true;
+    } else if (archetype === 'fourFloor') {
+      for (s = 0; s < STEPS; s++) {
+        d.kick[s] = (s % 4 === 0);
+        d.ohat[s] = (s % 2 === 1);
+        d.chat[s] = (s % 2 === 0) && intensity < 0.8;
+        d.snare[s] = (s === 4 || s === 12);
+      }
+      d.crash[0] = true;
+    } else if (archetype === 'shuffle') {
+      d.kick[0] = true;
+      d.kick[8] = intensity > 0.45;
+      d.snare[4] = true;
+      d.snare[12] = true;
+      d.chat[0] = d.chat[4] = d.chat[8] = d.chat[12] = true;
+      d.ohat[6] = d.ohat[14] = intensity > 0.6;
+      d.ride[0] = true;
     } else {
       d.kick[0] = true;
       if (intensity > 0.3) d.snare[8] = true;
@@ -584,7 +743,7 @@ border:1px solid var(--line);padding:5px 10px;border-radius:2px;cursor:pointer;w
   }
 
   /* ================= VOICES ================= */
-  function guitarPick(ctx, chain, t, o) {
+  function guitarPick(ctx, chain, t, o) { t = Math.max(0, t);
     var f = Math.max(20, o.freq), dur = Math.max(0.02, o.dur), amp = Math.max(EPS, o.amp);
     var isLead = !!o.isLead;
 

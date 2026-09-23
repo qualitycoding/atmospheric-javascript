@@ -79,3 +79,24 @@ in the repo) and `void-choir-engine.js`. Before this, the engine was pasted into
 caught the two drifting apart. `npm run check` and test T-30 fail if the page is stale. The script treats the
 engine as literal text (a plain string replace would corrupt `$&`-style sequences) and rejects an engine
 containing `</script`. Line endings are normalised so Windows checkouts pass.
+
+## 2026-09-23: Ten new styles (gen-20260923T084400Z-ten-new-styles)
+Added ten new UI-selectable styles to the engine:
+- `meshuggah` (MESHUGGAH — OBLIQUE, 126 BPM, Phrygian)
+- `classic-rock` (CLASSIC ROCK — ARENA, 122 BPM, Mixolydian)
+- `blues-rock` (BLUES ROCK — SHUFFLE, 108 BPM, Blues)
+- `motorhead` (MOTÖRHEAD — SPEED, 190 BPM, Mixolydian)
+- `hair-metal` (80s HAIR METAL — ARENA, 132 BPM, Mixolydian)
+- `nirvana` (NIRVANA — GRUNGE, 134 BPM, Aeolian)
+- `ramones` (RAMONES — PUNK, 178 BPM, Aeolian)
+- `art-punk` (ART PUNK — AVANT, 150 BPM, Dorian)
+- `exploited` (EXPLOITED — STREET PUNK, 184 BPM, Phrygian)
+- `disco` (DISCO — FOUR ON THE FLOOR, 118 BPM, Dorian)
+
+Features and changes:
+- **Modes:** Extended `MODES` with `mixolydian` (`[0, 2, 4, 5, 7, 9, 10]`) and `blues` (`[0, 3, 5, 6, 7, 10]`).
+- **Drum archetypes:** Added `punk` (straight 8th hats, kick quarters, backbeat), `fourFloor` (kick on all quarters, offbeat open hats), and `shuffle` (shuffle-feel kick/snare/ride) to `generatePatterns` and `pickArchetype`.
+- **Test suite:** Amended frozen test T-24 so assertion expects `V.STYLE_IDS.length` (13) unique hashes instead of hardcoded 3 (D-005). Added tests T-31..T-36 validating style registry integrity, schema compliance, archetype keys, pattern generators, unique labels, and new modes.
+- **Engine robustness:** Clamped schedule time in `guitarPick` to prevent negative audio context time errors when tremolo microtiming jitter is negative at time 0.
+- **Tuning:** All 13 styles pass T-11 peak (≤ −1 dBFS) and T-17 level stability (p95/p50 < 3) within target aesthetic bands.
+
