@@ -1,6 +1,7 @@
 /* VOID CHOIR test suite. Run: npm install && npm test
    Thresholds are calibrated against renders of the ORIGINAL repo code (see CHANGES.md);
    they are regression guards on measurable properties, not proof a kit "sounds good". */
+/* T-31..T-36 added by gen-20260923T084400Z-ten-new-styles — see plan/DECISIONS.md D-005 */
 const {OfflineAudioContext}=require('node-web-audio-api');
 require('../void-choir-engine.js');
 const V=globalThis.VoidChoir, D=require('./dsp.js'), fs=require('fs');
@@ -44,7 +45,7 @@ function ihr(d,f0,N=16384){const m=D.spectrum(d,Math.floor(0.25*SR),N);let h=0,i
   const u=new Set(c.motif).size;ok('motif has contour ['+s+'] uniq='+u,u>=5,u);
  }
  ok('T-02 seed independence',V.hashEvents(V.buildEventList({seed:'aaa',styleId:'cosmic',bars:8}))!==V.hashEvents(V.buildEventList({seed:'bbb',styleId:'cosmic',bars:8})),'collision');
- ok('T-24 style independence',new Set(V.STYLE_IDS.map(s=>V.hashEvents(V.buildEventList({seed:'x',styleId:s,bars:8})))).size===3,'collision');
+ ok('T-24 style independence',new Set(V.STYLE_IDS.map(s=>V.hashEvents(V.buildEventList({seed:'x',styleId:s,bars:8})))).size===V.STYLE_IDS.length,'collision');
  ok('T-04 no Math.random in engine',!/Math\.random/.test(src),'found');
  ok('T-25 no exponential ramp targets zero (RangeError)',!/exponentialRampToValueAtTime\(\s*0\s*,/.test(src),'found');
  const cur=V.createAsymmetricDistortion(20),n=cur.length,q=Math.round(n*0.475),qm=n-1-q,asy=Math.abs(cur[q]+cur[qm]);
@@ -129,6 +130,33 @@ function ihr(d,f0,N=16384){const m=D.spectrum(d,Math.floor(0.25*SR),N);let h=0,i
   const fl=Math.floor(SR*0.05),fr=[];for(let f=SR;f+fl<L.length;f+=fl)fr.push(D.rms(L,f,f+fl));fr.sort((a,b)=>a-b);
   const pm=fr[Math.floor(fr.length*0.95)]/Math.max(fr[Math.floor(fr.length*0.5)],1e-9);
   ok('T-17 ['+s+'] level stability p95/p50 = '+pm.toFixed(2),pm<3,pm.toFixed(2));
+ }
+ // ---- style registry growth (gen-20260923T084400Z-ten-new-styles) ----
+ ok('T-31 registry: STYLE_IDS matches STYLES keys and count is 13',
+    V.STYLE_IDS.length===13&&JSON.stringify(V.STYLE_IDS)===JSON.stringify(Object.keys(V.STYLES)),'registry mismatch');
+ const ARCH=['blast','gallop','halftime','sparse','punk','fourFloor','shuffle'];
+ for(const s of V.STYLE_IDS){const st=V.STYLES[s];
+  ok('T-32 schema ['+s+']',st.id===s&&/^[a-z0-9-]+$/.test(s)&&st.label.length>0&&
+    Array.isArray(st.progression)&&st.progression.length===4&&!!V.MODES[st.mode]&&
+    st.progression.every(p=>Array.isArray(p)&&p.length===2&&Number.isInteger(p[0])&&(p[1]==='maj'||p[1]==='min'))&&
+    Object.keys(st.mix).slice().sort().join()===V.CHANNEL_IDS.slice().sort().join()&&
+    st.drive.rhythm>=0&&st.drive.rhythm<=100&&st.drive.lead>=0&&st.drive.lead<=100&&
+    st.reverb.seconds>0&&st.reverb.mix>0&&st.reverb.mix<1&&
+    st.tremPerBeat>=2&&st.tremPerBeat<=8&&st.stepsPerChord>=16,'schema');
+  ok('T-33 archetype keys ['+s+']',Object.keys(st.archetypeWeights).every(k=>ARCH.includes(k)),'unknown key');
+ }
+ ok('T-35 labels unique',new Set(Object.values(V.STYLES).map(x=>x.label)).size===V.STYLE_IDS.length,'duplicate label');
+ {const fp=V.generatePatterns(V.STYLES.disco,'fourFloor',0.7,V.makeRng('t34'));
+  ok('T-34 fourFloor pattern',[0,4,8,12].every(i=>fp.kick[i])&&fp.kick.filter(Boolean).length===4&&
+     [1,3,5,7,9,11,13,15].every(i=>fp.ohat[i])&&fp.snare[4]&&fp.snare[12],'pattern');
+  const pk=V.generatePatterns(V.STYLES.ramones,'punk',0.7,V.makeRng('t34'));
+  ok('T-34b punk pattern',[0,4,8,12].every(i=>pk.kick[i])&&pk.snare[4]&&pk.snare[12]&&
+     pk.chat.filter((x,i)=>i%2===0&&x).length===8&&pk.crash[0],'pattern');
+  const sh=V.generatePatterns(V.STYLES['blues-rock'],'shuffle',0.7,V.makeRng('t34'));
+  ok('T-34c shuffle pattern',sh.kick[0]&&sh.kick[8]&&sh.snare[4]&&sh.snare[12]&&
+     sh.chat[0]&&sh.chat[4]&&sh.chat[8]&&sh.chat[12]&&sh.ride[0],'pattern');
+  ok('T-36 new modes valid',V.MODES.blues.length===6&&new Set(V.MODES.blues).size===6&&
+     V.MODES.mixolydian.length===7&&new Set(V.MODES.mixolydian).size===7,'modes');
  }
  console.log('\n'+pass+' passed, '+fail+' failed');process.exit(fail?1:0);
 })();
