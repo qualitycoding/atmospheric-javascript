@@ -64,11 +64,11 @@ The 16 s file is a riff, not one note: pitches from B-flat 1 to D-sharp 3 (58-15
 temperament, filename notwithstanding (the first 2 s is E2 = 82.29 Hz, -2 cents). Glitches: digital silence
 14.007-14.500 s, note-to-note transitions, and passages where the fundamental is weaker than partials 2-3
 (a fixed-harmonic-count tracker mislabels them as E3/B3; a comb-occupancy tracker was needed). Used: 11
-clean segments, 7.9 s total, 6 distinct pitches (`notes.csv`); takes of one pitch agree to 3-4 dB.
+clean segments, 7.8 s total, 6 distinct pitches (`notes.csv`); takes of one pitch agree to 3-4 dB.
 **Retracted:** an earlier analysis pooled the whole file as one note and reported slow amplitude modulation
 and a "biased first second". Both were artefacts; the first 1.95 s is a clean, stable E2 (level within 2.4 dB).
 **Findings:** partials are harmonic within +-2 cents. Structure is mostly tied to absolute frequency, not
-harmonic number (RMS level difference between pitches: 5.9 dB by Hz vs 10.5 dB by harmonic number), i.e. a
+harmonic number (RMS level difference between pitches: 6.4 dB by Hz vs 11.0 dB by harmonic number), i.e. a
 fixed cabinet/formant response: peaks near 200 and 470-660 Hz, dip near 340 Hz, notches near 1.07 and 1.72 kHz,
 steep low cut below ~90 Hz, bright to 10 kHz (centroid ~4.8 kHz). Over a 0.85-octave pitch range the broad
 tilt of source and cabinet cannot be separated; only the sharp features can.
@@ -108,3 +108,21 @@ at a repository's root URL, so the app now loads at `https://qualitycoding.githu
 directly instead of requiring `/void-choir.html` on the end. That means **the old
 `.../void-choir.html` link now 404s** on whichever branch GitHub Pages is configured to serve.
 
+## 2026-10-07: analysis windows overlapped the dropout; two stale comments
+**Data.** Two segments in `sample-analysis/notes.csv` overlapped the digital silence at 14.007-14.500 s that
+the analysis README says was excluded: A#1 13.63-14.12 s and G#2 14.48-15.02 s. The hard cut to silence adds
+broadband energy, so the A#1 profile was contaminated (up to 19.7 dB at its 6th harmonic, 1.62 dB mean below
+10 kHz; G#2 1.1 dB worst, 0.23 dB mean). Both windows now stop or start at least 20 ms clear (A#1 13.63-13.98 s,
+G#2 14.52-15.02 s), and the A#1 and G#2 columns of `harmonics_per_note.csv` and `tests/reference-profiles.json`
+were recomputed from the recording (the other four pitches are unchanged). The frequency-vs-harmonic-number
+finding still holds: 6.4 vs 11.0 dB (was quoted as 5.9 vs 10.5 on the contaminated data).
+**Cabinet not refitted.** A refit on the corrected data matches the corrected reference no better (5.71 vs 5.73 dB
+for the shipped cabinet) and generalises slightly worse (leave-one-pitch-out 5.98 vs 5.81 dB). Its large changes
+(-38 dB at 45 Hz, -11 dB at 351 Hz) fall where only the single 0.35 s A#1 take has data, so it would be fitting
+one take. The shipped `CAB` table is kept. Measured through the full chain (test T-28), the engine is
+unchanged but the corrected reference moves its score from 6.7 to 6.8 dB mean: A#1 8.8 -> 9.5 dB, other pitches identical.
+**New test T-37:** no window in `notes.csv` may intersect an interval that `sample-analysis/README.txt` lists as
+excluded. It fails on the previous data (both windows) and passes now.
+**Comments.** The engine said a DynamicsCompressorNode delays output by "~20 ms"; that was never measured. It now
+gives the measured 8.71 ms per node (impulse test, node-web-audio-api 2.2.0, 44.1 kHz; browsers not measured).
+Its header named a `tests.html` harness that was never in the repository; it now names `tests/run.js`.

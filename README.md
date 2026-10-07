@@ -85,7 +85,7 @@ npm test             # the full test suite (includes the same freshness check)
 
 The build script needs only Node, with no dependencies. It fails with a clear message if the template loses its engine tag, or if the engine contains `</script`, which would end the inline script early.
 
-The suite renders audio offline (via `node-web-audio-api`) and runs 45 checks: same seed gives the same music; guitar harmonic balance is stable across pitch; drum attack, decay and brightness; peak level; the cabinet response at 44.1, 48 and 96 kHz; timing alignment between instruments; how closely the guitar matches the reference recording; and that `index.html` matches its sources.
+The suite renders audio offline (via `node-web-audio-api`) and runs 148 checks: same seed gives the same music; guitar harmonic balance is stable across pitch; drum attack, decay and brightness; peak level; the cabinet response at 44.1, 48 and 96 kHz; timing alignment between instruments; how closely the guitar matches the reference recording; that the style registry is well formed; that no analysis window overlaps an excluded part of the recording; and that `index.html` matches its sources.
 
 | Path | Purpose |
 |---|---|

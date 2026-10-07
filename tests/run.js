@@ -158,5 +158,12 @@ function ihr(d,f0,N=16384){const m=D.spectrum(d,Math.floor(0.25*SR),N);let h=0,i
   ok('T-36 new modes valid',V.MODES.blues.length===6&&new Set(V.MODES.blues).size===6&&
      V.MODES.mixolydian.length===7&&new Set(V.MODES.mixolydian).size===7,'modes');
  }
+ // ---- T-37: no analysis window overlaps an interval the analysis README says was excluded ----
+ {const readme=fs.readFileSync(__dirname+'/../sample-analysis/README.txt','utf8');
+  const ex=[...readme.matchAll(/(\d+\.\d+)-(\d+\.\d+) s/g)].map(m=>[parseFloat(m[1]),parseFloat(m[2])]);
+  const rows=fs.readFileSync(__dirname+'/../sample-analysis/notes.csv','utf8').trim().split('\n').slice(1).map(l=>l.split(',').map(Number));
+  const hits=rows.filter(([a,b])=>ex.some(([x,y])=>a<y&&b>x)).map(([a,b])=>a+'-'+b);
+  ok('T-37 '+rows.length+' analysis windows clear of the '+ex.length+' excluded interval(s) in sample-analysis/README.txt',ex.length>0&&hits.length===0,
+     ex.length?'overlapping windows: '+hits.join(', '):'no excluded interval found in README.txt');}
  console.log('\n'+pass+' passed, '+fail+' failed');process.exit(fail?1:0);
 })();

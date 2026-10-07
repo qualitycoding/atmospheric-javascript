@@ -1,6 +1,6 @@
 /* VOID CHOIR — engine core.
    DOM-free and side-effect-free on load, so the same file backs both the
-   instrument (index.html) and the frozen test harness (tests.html).
+   instrument (index.html) and the Node test suite (tests/run.js).
    Plain script, not an ES module: ES modules do not load over file://. */
 (function (global) {
   'use strict';
@@ -919,9 +919,10 @@
     });
 
     /* No compressor on the drum bus or the amps. A DynamicsCompressorNode
-       delays its output (measured ~20 ms on one runtime, implementation
-       specific), and only the master compressor sits across every source, so
-       adding one to a subset shifts those instruments late against the rest. */
+       delays its output (8.71 ms per node at 44.1 kHz, measured with an
+       impulse on node-web-audio-api 2.2.0; browsers not measured), and only
+       the master compressor sits across every source, so adding one to a
+       subset shifts those instruments late against the rest. */
     var drumBus = ctx.createGain();
     drumBus.connect(channels.drums.gain);
 
